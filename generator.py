@@ -6,7 +6,7 @@ be executed as a script to actually generate the data.
 
 """
 import random, argparse, csv, os
-from graphics import Point, Line, Rectangle, Text, GraphWin
+# from graphics import Point, Line, Rectangle, Text, GraphWin
 from movingpoint import *
 from datetime import datetime
 from time import sleep
@@ -29,8 +29,8 @@ def main():
     # optional arguments: print/store/draw results with graphics
     parser.add_argument("-p", "--print", action="store_true",
         help="print results to console")
-    parser.add_argument("-g", "--graphics", action="store_true",
-        help="display graphics and draw results")
+    # parser.add_argument("-g", "--graphics", action="store_true",
+    #     help="display graphics and draw results")
     parser.add_argument("-s", "--store", action="store_true",
         help="store data to file")
     
@@ -61,7 +61,7 @@ def main():
     if args.type not in ["constant", "random"]:
         parser.error("invalid trajectory type")
     
-    generator = Generator(args.rate, args.area, args.time, args.graphics,
+    generator = Generator(args.rate, args.area, args.time,
         args.seed, window, args.type, args.max, args.rnd)
 
     if args.print:  # print results
@@ -82,10 +82,10 @@ class Generator():
     """
 
 
-    def __init__(self, object_rate, area, time, draw, seed, window,
+    def __init__(self, object_rate, area, time, seed, window,
         movement_type, max_speed, rnd):
         """Prepare space and initialize generation of new objects and data"""
-
+        
         self.object_rate = object_rate
         self.area = area
         self.window = window
@@ -110,33 +110,32 @@ class Generator():
         for t in range(0, time):
             
             # generate and move points, don't draw anything
-            self.generate_objects(False)
-            self.move_objects(False)                    
+            self.generate_objects()
+            self.move_objects()                    
 
-        # actual simulation's about to start, draw if required
-        if draw:
+        # # actual simulation's about to start, draw if required
+        # if draw:
 
-            # setup window
-            self.win = GraphWin("Moving Points", self.window, self.window)
+        #     # setup window
+        #     self.win = GraphWin("Moving Points", self.window, self.window)
 
-            # draw objects
-            for point in self.objects_dict.values():
-                point.draw(self.scale, self.win)
+        #     # draw objects
+        #     for point in self.objects_dict.values():
+        #         point.draw(self.scale, self.win)
 
         # run actual simulation
         for t in range(0, time):
             
             # generate and move points
-            self.generate_objects(draw)
-            self.move_objects(draw)
+            self.generate_objects()
+            self.move_objects()
 
             # append an entry with all point positions for this moment
             self.time_data.append([(p.pos_x, p.pos_y, p.id) for p in
                 self.objects_dict.values() if not p.out_of_bounds])
 
 
-
-    def generate_objects(self, draw_objects):
+    def generate_objects(self):
         """Generate all the moving objects"""
 
         # if rate is more than one
@@ -147,8 +146,8 @@ class Generator():
                 new_object = self._generate_single_object()
                 self.objects_dict[new_object.id] = new_object
 
-                if draw_objects:
-                    new_object.draw(self.scale, self.win)
+                # if draw_objects:
+                #     new_object.draw(self.scale, self.win)
         
         # for decimal part of rate
         if random.random() < self.object_rate % 1:
@@ -157,11 +156,11 @@ class Generator():
             new_object = self._generate_single_object()
             self.objects_dict[new_object.id] = new_object
 
-            if draw_objects:
-                new_object.draw(self.scale, self.win)
+            # if draw_objects:
+            #     new_object.draw(self.scale, self.win)
 
 
-    def move_objects(self, draw_objects):
+    def move_objects(self):
         """Execute one motion step for all objects"""
 
         for point in self.objects_dict.values():
@@ -171,8 +170,8 @@ class Generator():
 
                 point.move()   # execute motion
 
-                if draw_objects:
-                    point.update() # update visuals
+                # if draw_objects:
+                #     point.update() # update visuals
 
                 # if movement caused point to go off bounds
                 if (point.pos_x < 0 or point.pos_x > self.area or
@@ -181,13 +180,13 @@ class Generator():
                     point.out_of_bounds = True
             
             # remove visuals od objects out of bounds
-            elif point.out_of_bounds and draw_objects:
-                point.shape.undraw()
-                point.label.undraw()  
+            # elif point.out_of_bounds and draw_objects:
+            #     point.shape.undraw()
+            #     point.label.undraw()  
 
         # allow some time between drawing for smooth movement 
-        if draw_objects:
-            sleep(0.001)
+        # if draw_objects:
+        #     sleep(0.001)
 
 
     def export_data(self):

@@ -9,7 +9,7 @@ Classes:
   RandomMovingObject -- 
 """
 
-from graphics import Point, Circle, Text
+# from graphics import Point, Circle, Text
 import math, random
 
 
@@ -34,30 +34,30 @@ class MovingObject():
 
 
 
-    def draw(self, scale, win):
-        """Handle the necessary actions to draw the point plus it's label"""
+    # def draw(self, scale, win):
+    #     """Handle the necessary actions to draw the point plus it's label"""
 
-        self.scale = scale
+    #     self.scale = scale
 
-        self.shape = Circle(Point(self.pos_x * scale, self.pos_y * scale), 4)
-        self.shape.setFill('black')
-        self.label = Text(Point(self.pos_x * scale, self.pos_y * scale - 18),
-            self.id)
+    #     self.shape = Circle(Point(self.pos_x * scale, self.pos_y * scale), 4)
+    #     self.shape.setFill('black')
+    #     self.label = Text(Point(self.pos_x * scale, self.pos_y * scale - 18),
+    #         self.id)
 
-        self.shape.draw(win)
-        self.label.draw(win)
+    #     self.shape.draw(win)
+    #     self.label.draw(win)
 
 
-    def update(self):
-        """Update the object's graphic to match it's new position"""
+    # def update(self):
+    #     """Update the object's graphic to match it's new position"""
 
-        # calculate the movement offset
-        dX = self.pos_x * self.scale - self.shape.getCenter().getX()
-        dY = self.pos_y * self.scale - self.shape.getCenter().getY()
+    #     # calculate the movement offset
+    #     dX = self.pos_x * self.scale - self.shape.getCenter().getX()
+    #     dY = self.pos_y * self.scale - self.shape.getCenter().getY()
 
-        # apply offset to visuals
-        self.shape.move(dX, dY)
-        self.label.move(dX, dY)
+    #     # apply offset to visuals
+    #     self.shape.move(dX, dY)
+    #     self.label.move(dX, dY)
 
 
     # def __str__(self):

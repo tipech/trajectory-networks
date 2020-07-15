@@ -156,6 +156,7 @@ class NaiveNodeImportance(NodeImportance):
         super().__init__(data, metrics)
 
         # iterate through the network snapshots in time 
+        # pprint(data)
         for snapshot in data.values():
 
             # build the network
